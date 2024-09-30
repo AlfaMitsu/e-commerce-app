@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../auth/auth_bloc.dart';
 
-class LoginPage extends StatelessWidget {
+import '../blocs/bloc/login_bloc.dart';
+import '../blocs/bloc/login_event.dart';
+import '../blocs/bloc/login_state.dart';
+
+class LoginView extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocConsumer<AuthBloc, AuthState>(
@@ -17,38 +22,39 @@ class LoginPage extends StatelessWidget {
             if (state is AuthAuthenticated) {
               Navigator.pushReplacementNamed(context, '/home');
             } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             return Column(
               children: [
                 TextField(
                   controller: emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                 ),
                 TextField(
                   controller: passwordController,
-                  decoration: InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     context.read<AuthBloc>().add(AuthLoginRequested(
                         emailController.text, passwordController.text));
                   },
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
                 TextButton(
                   onPressed: () {
                     context.read<AuthBloc>().add(AuthSignUpRequested(
                         emailController.text, passwordController.text));
                   },
-                  child: Text('Sign Up'),
+                  child: const Text('Sign Up'),
                 ),
               ],
             );
