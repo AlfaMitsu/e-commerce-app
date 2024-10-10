@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
+import '../../data/models/product_model.dart';
 
 class ProductDetailsView extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final ProductModel product;
 
   const ProductDetailsView({super.key, required this.product});
 
@@ -20,14 +21,12 @@ class ProductDetailsView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Product Image Gallery
-              productImageGallery(product['images'] != null
-                  ? List<String>.from(product['images']!)
-                  : []),
+              productImageGallery(product.images),
               const SizedBox(height: 16),
 
               // Product Name
               Text(
-                product['name'],
+                product.name,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -39,9 +38,9 @@ class ProductDetailsView extends StatelessWidget {
               // Product Price
               Row(
                 children: [
-                  if (product['discountPrice'] != null) ...[
+                  if (product.discountPrice != null) ...[
                     Text(
-                      '\$${product['discountPrice']}',
+                      '\$${product.discountPrice}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -50,7 +49,7 @@ class ProductDetailsView extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '\$${product['originalPrice']}',
+                      '\$${product.originalPrice}',
                       style: const TextStyle(
                         fontSize: 16,
                         decoration: TextDecoration.lineThrough,
@@ -59,7 +58,7 @@ class ProductDetailsView extends StatelessWidget {
                     ),
                   ] else
                     Text(
-                      '\$${product['price']}',
+                      '\$${product.price}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -74,8 +73,7 @@ class ProductDetailsView extends StatelessWidget {
               Row(
                 children: [
                   const Icon(Icons.star, color: Colors.amber),
-                  Text(
-                      '${product['rating']}/5 (${product['reviews']} reviews)'),
+                  Text('${product.rating}/5 (${product.reviews} reviews)'),
                 ],
               ),
               const SizedBox(height: 16),
@@ -89,21 +87,21 @@ class ProductDetailsView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(product['description']),
+              Text(product.description),
               const SizedBox(height: 16),
 
               // Sizes or Variants
-              if (product['sizes'] != null) sizeSelector(product['sizes']),
+              if (product.sizes != null) sizeSelector(product.sizes!),
 
               const SizedBox(height: 16),
 
               // Stock Availability
               Text(
-                product['stock'] > 0
-                    ? 'In Stock (${product['stock']} left)'
+                product.stock > 0
+                    ? 'In Stock (${product.stock} left)'
                     : 'Out of Stock',
                 style: TextStyle(
-                  color: product['stock'] > 0 ? Colors.green : Colors.red,
+                  color: product.stock > 0 ? Colors.green : Colors.red,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -156,19 +154,25 @@ class ProductDetailsView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(product['specifications']),
+              Text(product.specifications),
 
               const SizedBox(height: 16),
 
               // Related/Recommended Products
-              const Text(
-                'Related Products:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+              if (product.relatedProducts != null)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Related Products:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    relatedProductsSection(product.relatedProducts!),
+                  ],
                 ),
-              ),
-              relatedProductsSection(product['relatedProducts']),
             ],
           ),
         ),
@@ -178,7 +182,6 @@ class ProductDetailsView extends StatelessWidget {
 
   // Product Image Gallery
   Widget productImageGallery(List<String>? images) {
-    // If images list is null or empty, return a placeholder widget
     if (images == null || images.isEmpty) {
       return Container(
         height: 200,
