@@ -30,10 +30,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         onGenerateRoute: (settings) {
           if (settings.name == '/productDetails') {
-            // Assuming the argument passed is a Map<String, dynamic>
             final productData = settings.arguments as Map<String, dynamic>;
 
-            // Convert the Map to ProductModel
             final product = ProductModel(
               name: productData['name'],
               price: productData['price'],
