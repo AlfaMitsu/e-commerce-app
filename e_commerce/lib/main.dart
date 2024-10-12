@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
               },
             );
           }
-          return null; // Fallback in case of an unknown route
+          return null;
         },
         routes: {
           '/': (context) => const HomeView(),
