@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('E-Commerce App'),
-        backgroundColor: Colors.deepPurple, // Livelier color for the app bar
+        backgroundColor: Colors.deepPurple,
         actions: [
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -33,7 +33,6 @@ class HomeView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Search Bar
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
@@ -41,8 +40,7 @@ class HomeView extends StatelessWidget {
                         hintText: 'Search for products...',
                         prefixIcon: const Icon(Icons.search),
                         filled: true,
-                        fillColor:
-                            Colors.deepPurple.shade50, // Soft background color
+                        fillColor: Colors.deepPurple.shade50,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide.none,
@@ -50,8 +48,6 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  // Categories Section
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
@@ -59,7 +55,7 @@ class HomeView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple, // Category heading color
+                        color: Colors.deepPurple,
                       ),
                     ),
                   ),
@@ -72,8 +68,6 @@ class HomeView extends StatelessWidget {
                           .toList(),
                     ),
                   ),
-
-                  // Product Grid
                   const Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -82,7 +76,7 @@ class HomeView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple, // Product heading color
+                        color: Colors.deepPurple,
                       ),
                     ),
                   ),
@@ -99,25 +93,23 @@ class HomeView extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     itemBuilder: (context, index) {
-                      return productCard(state.products[index],
-                          context); // Pass both product and context
+                      return productCard(state.products[index], context);
                     },
                   ),
                 ],
               ),
             );
           } else {
-            return Container(); // Fallback UI
+            return Container();
           }
         },
       ),
     );
   }
 
-  // Category Card Widget
   Widget categoryCard(String categoryName) {
     return Card(
-      color: Colors.deepPurple.shade100, // Background color for category cards
+      color: Colors.deepPurple.shade100,
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -129,7 +121,7 @@ class HomeView extends StatelessWidget {
             categoryName,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.deepPurple, // Text color in category cards
+              color: Colors.deepPurple,
             ),
           ),
         ),
@@ -137,15 +129,13 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  // Product Card Widget
   Widget productCard(Map<String, String> product, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigate to product details and pass the product details as arguments
         Navigator.pushNamed(
           context,
           '/productDetails',
-          arguments: product, // Pass the product details as arguments
+          arguments: product,
         );
       },
       child: Card(
@@ -157,7 +147,6 @@ class HomeView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             Container(
               height: 120,
               decoration: BoxDecoration(
@@ -166,7 +155,7 @@ class HomeView extends StatelessWidget {
                 image: DecorationImage(
                   image: AssetImage(
                     product['image']!,
-                  ), // Replace with network image if needed
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -181,7 +170,7 @@ class HomeView extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple, // Product name color
+                      color: Colors.deepPurple,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -190,7 +179,7 @@ class HomeView extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black54, // Price text color
+                      color: Colors.black54,
                     ),
                   ),
                 ],
